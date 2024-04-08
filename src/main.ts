@@ -14,10 +14,10 @@ async function bootstrap() {
         new ExpressAdapter(server)
     );
     app.setGlobalPrefix(API_PREFIX);
-    app.enableCors({
-        credentials: false,
-        origin: false,
-    })
+    // app.enableCors({
+    //     credentials: false,
+    //     origin: false,
+    // })
     initSwagger(app);
 
     await app.listen(PORT);
