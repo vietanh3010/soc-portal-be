@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ElasticSearchService } from './elastic-search.service';
+import { EsQueryBody } from 'src/types/payload.type';
 
 @Controller('elastic-search')
 @ApiTags('Elastic search')
@@ -9,27 +10,19 @@ export class ElasticSearchController {
 
     }
 
-    @Get('/')
+    @Post('/_search')
     @ApiOperation({
-        summary: 'Test'
+        summary: 'Perform search'
     })
-    test() {
-        return this.elasticSearchService.test()
-    }
-
-    @Get('/search')
-    @ApiOperation({
-        summary: 'Get all data'
+    @ApiBody({
+        description: `Your aggregation`,
+        required: true,
     })
-    search() {
-        return this.elasticSearchService.search()
-    }
-
-    @Get('/suggestion')
-    @ApiOperation({
-        summary: 'Get all data'
+    @ApiResponse({
+        status: 200,
+        description: 'Successful response',
     })
-    suggestion() {
-        return this.elasticSearchService.suggestion()
+    search(@Body() body: EsQueryBody) {
+        return this.elasticSearchService.search(body)
     }
 }
