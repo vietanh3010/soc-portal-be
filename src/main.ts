@@ -4,7 +4,6 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import * as express from 'express';
 import { AppModule } from './app.module';
 import initSwagger from './swagger/swagger';
-import cors from "cors";
 
 const PORT = process.env.PORT;
 const API_PREFIX = process.env.API_PREFIX;
@@ -15,14 +14,11 @@ async function bootstrap() {
         new ExpressAdapter(server)
     );
     app.setGlobalPrefix(API_PREFIX);
-    // app.enableCors({
-    //     credentials: false,
-    //     origin: false,
-    // })
-    app.use(cors({
+    app.enableCors({
         origin: "*",
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-    }))
+    })
+
     initSwagger(app);
 
     await app.listen(PORT);
