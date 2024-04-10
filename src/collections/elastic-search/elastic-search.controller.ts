@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ElasticSearchService } from './elastic-search.service';
 import { EsQueryBody } from 'src/types/payload.type';
@@ -24,5 +24,29 @@ export class ElasticSearchController {
     })
     search(@Body() body: EsQueryBody) {
         return this.elasticSearchService.search(body)
+    }
+
+    @Delete('/_delete')
+    @ApiOperation({
+        summary: 'Perform delete all data'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Successful response',
+    })
+    deleteAll() {
+        return this.elasticSearchService.deleteAll()
+    }
+
+    @Get('/get_all_fields')
+    @ApiOperation({
+        summary: 'Get all fields'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Successful response',
+    })
+    getAllFields() {
+        return this.elasticSearchService.getAllFields()
     }
 }
